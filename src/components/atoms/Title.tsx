@@ -1,19 +1,15 @@
 import React from 'react';
 import {Text} from 'react-native';
+import {TextProps} from './Paragraph';
 import {usePrimaryColor} from '../../hooks/Colors';
 
-type TitleProps = {
-  color?: string | null;
-  children: string | string[];
-};
-
-const Title = ({color = null, children}: TitleProps) => {
+const Title = ({color, fontSize = 24, children}: TextProps): JSX.Element => {
   const defaultColor = usePrimaryColor();
 
   color ??= defaultColor;
 
   return (
-    <Text style={{color: color, fontSize: 24, marginBottom: 8}}>
+    <Text style={{color: color, fontSize: fontSize, marginBottom: 8}}>
       {children}
     </Text>
   );

@@ -1,19 +1,17 @@
 import React from 'react';
 import {Text} from 'react-native';
+import {TextProps} from './Paragraph';
 import {useForegroundColor} from '../../hooks/Colors';
 
-type SubtitleProps = {
-  color?: string | null;
-  children: string | string[];
-};
-
-const Subtitle = ({color = null, children}: SubtitleProps) => {
+const Subtitle = ({color, fontSize = 21, children}: TextProps): JSX.Element => {
   const defaultColor = useForegroundColor();
 
   color ??= defaultColor;
 
   return (
-    <Text style={{color: color, fontSize: 21, marginBottom: 4}}>{children}</Text>
+    <Text style={{color: color, fontSize: fontSize, marginBottom: 4}}>
+      {children}
+    </Text>
   );
 };
 

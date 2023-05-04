@@ -2,18 +2,25 @@ import React from 'react';
 import {Text} from 'react-native';
 import {useForegroundColor} from '../../hooks/Colors';
 
-type ParagraphProps = {
-  color?: string | null;
+export type TextProps = {
+  color?: string | undefined;
+  fontSize?: number | undefined;
   children: string | string[];
 };
 
-const Paragraph = ({color = null, children}: ParagraphProps) => {
+const Paragraph = ({
+  color,
+  fontSize = 16,
+  children,
+}: TextProps): JSX.Element => {
   const defaultColor = useForegroundColor();
 
   color ??= defaultColor;
 
   return (
-    <Text style={{color: color, fontSize: 16, marginBottom: 2}}>{children}</Text>
+    <Text style={{color: color, fontSize: fontSize, marginBottom: 2}}>
+      {children}
+    </Text>
   );
 };
 
