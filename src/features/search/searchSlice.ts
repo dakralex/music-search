@@ -2,12 +2,12 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {KeyedArtistList} from '../../components/organisms/ArtistList';
 
 export interface SearchState {
-  recentInputs: Array<string>;
+  recentSearchValues: Array<string>;
   currentArtistResults: Array<KeyedArtistList>;
 }
 
 const initialState: SearchState = {
-  recentInputs: [],
+  recentSearchValues: [],
   currentArtistResults: [
     {
       id: '11ae9fbb-f3d7-4a47-936f-4c0a04d3b3b5',
@@ -40,21 +40,22 @@ export const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    recordSearchInput: (state, action: PayloadAction<string>) => {
-      state.recentInputs.push(action.payload);
+    recordSearchValue: (state: SearchState, action: PayloadAction<string>) => {
+      state.recentSearchValues.push(action.payload);
+      // state.recentSearchValues.slice(0, 10);
     },
     recordArtistResults: (
-      state,
+      state: SearchState,
       action: PayloadAction<Array<KeyedArtistList>>,
     ) => {
       state.currentArtistResults = action.payload;
     },
-    clearArtistResults: state => {
+    clearArtistResults: (state: SearchState) => {
       state.currentArtistResults = [];
     },
   },
 });
 
-export const {recordSearchInput, recordArtistResults, clearArtistResults} =
+export const {recordSearchValue, recordArtistResults, clearArtistResults} =
   searchSlice.actions;
 export default searchSlice.reducer;
