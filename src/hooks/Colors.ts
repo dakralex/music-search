@@ -1,30 +1,28 @@
 import {useColorScheme} from 'react-native';
-import Colors from '../styles/Colors';
+import Colors, {Palette} from '../styles/Colors';
 
 const useColorSchemeName = (): string => {
   return useColorScheme() === 'dark' ? 'dark' : 'light';
 };
 
-export const usePrimaryColor = (): string => {
+export const usePalette = (): Palette => {
   const colorSchemeName = useColorSchemeName();
 
-  return Colors[colorSchemeName].primary;
+  return Colors[colorSchemeName];
+};
+
+export const usePrimaryColor = (): string => {
+  return usePalette().primary;
 };
 
 export const useSecondaryColor = (): string => {
-  const colorSchemeName = useColorSchemeName();
-
-  return Colors[colorSchemeName].secondary;
+  return usePalette().secondary;
 };
 
 export const useForegroundColor = (): string => {
-  const colorSchemeName = useColorSchemeName();
-
-  return Colors[colorSchemeName].foreground;
+  return usePalette().foreground;
 };
 
 export const useBackgroundColor = (): string => {
-  const colorSchemeName = useColorSchemeName();
-
-  return Colors[colorSchemeName].background;
+  return usePalette().background;
 };

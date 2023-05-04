@@ -1,4 +1,4 @@
-type Palette = {
+export type Palette = {
   [index: string]: string;
   primary: string;
   secondary: string;
@@ -6,7 +6,7 @@ type Palette = {
   foreground: string;
 };
 
-type ThemedPalette = {
+export type ThemedPalette = {
   [index: string]: Palette;
   dark: Palette;
   light: Palette;

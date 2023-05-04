@@ -1,8 +1,13 @@
 import React from 'react';
 import {View} from 'react-native';
+import {usePalette} from '../hooks/Colors';
+import {getScreenStyles} from '../styles/Screens';
 
 const FavoritesScreen = (): JSX.Element => {
-  return <View></View>;
+  const colorPalette = usePalette();
+  const screenStyles = getScreenStyles(colorPalette);
+
+  return <View style={screenStyles.screenViewContainer}></View>;
 };
 
 export default FavoritesScreen;

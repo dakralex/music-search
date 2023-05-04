@@ -16,7 +16,7 @@ const ArtistListItem = ({
   name,
   yearsActive,
   areaFormed,
-}: ArtistListItemProps) => {
+}: ArtistListItemProps): JSX.Element => {
   return (
     <View style={styles.artistListItemContainer}>
       <View style={styles.artistListItemTextList}>

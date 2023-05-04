@@ -1,53 +1,54 @@
 import React from 'react';
+import {store} from './AppStore';
+import {usePalette} from './hooks/Colors';
 import HomeScreen from './containers/HomeScreen';
 import SearchScreen from './containers/SearchScreen';
+import {Provider as StoreProvider} from 'react-redux';
+import {getNavigationStyles} from './styles/Navigation';
 import FavoritesScreen from './containers/FavoritesScreen';
 import {NavigationContainer} from '@react-navigation/native';
-import {
-  useBackgroundColor,
-  useForegroundColor,
-  usePrimaryColor,
-} from './hooks/Colors';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {FavoritesIcon, HomeIcon, SearchIcon} from './assets/navigationIcons';
 
 const Tab = createBottomTabNavigator();
 
 const App = (): JSX.Element => {
-  const primaryColor = usePrimaryColor();
-  const backgroundColor = useBackgroundColor();
-  const foregroundColor = useForegroundColor();
+  const colorPalette = usePalette();
+  const navigationStyles = getNavigationStyles(colorPalette);
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerStyle: {backgroundColor: backgroundColor},
-          headerTitleStyle: {color: primaryColor, fontSize: 24},
-          tabBarStyle: {
-            backgroundColor: backgroundColor,
-          },
-          tabBarLabelStyle: {color: foregroundColor},
-          tabBarActiveTintColor: primaryColor,
-        }}>
-        <Tab.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{tabBarIcon: props => <HomeIcon {...props} />}}
-        />
-        <Tab.Screen
-          name="Search"
-          component={SearchScreen}
-          options={{tabBarIcon: props => <SearchIcon {...props} />}}
-        />
-        <Tab.Screen
-          name="Favorites"
-          component={FavoritesScreen}
-          options={{tabBarIcon: props => <FavoritesIcon {...props} />}}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <StoreProvider store={store}>
+        <NavigationContainer>
+          <Tab.Navigator
+            initialRouteName="Home"
+            screenOptions={{
+              headerStyle: navigationStyles.headerContainer,
+              headerTitleStyle: navigationStyles.headerText,
+              tabBarStyle: navigationStyles.tabBarContainer,
+              tabBarLabelStyle: navigationStyles.tabBarText,
+              tabBarActiveTintColor: navigationStyles.tabBarTextActive.color,
+            }}>
+            <Tab.Screen
+              name="Home"
+              component={HomeScreen}
+              options={{tabBarIcon: props => <HomeIcon {...props} />}}
+            />
+            <Tab.Screen
+              name="Search"
+              component={SearchScreen}
+              options={{tabBarIcon: props => <SearchIcon {...props} />}}
+            />
+            <Tab.Screen
+              name="Favorites"
+              component={FavoritesScreen}
+              options={{tabBarIcon: props => <FavoritesIcon {...props} />}}
+            />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </StoreProvider>
+    </SafeAreaProvider>
   );
 };
 
