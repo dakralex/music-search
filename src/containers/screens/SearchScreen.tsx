@@ -1,33 +1,41 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AppScreen from './AppScreen';
 import {Platform} from 'react-native';
 import {SearchBar} from '@rneui/themed';
 import {usePalette} from '../../hooks/Colors';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppDispatch, RootState} from '../../AppStore';
-import Paragraph from '../../components/atoms/Paragraph';
-import SearchList from '../../components/organisms/SearchList';
-import ArtistList from '../../components/organisms/ArtistList';
-import {recordSearchValue} from '../../features/search/searchSlice';
+import useDebounce from '../../hooks/useDebounce';
+import ArtistList, {
+  KeyedArtistListItem,
+} from '../../components/organisms/ArtistList';
+import {useLazySearchArtistByNameQuery} from '../../features/services/musicbrainz';
+import LoadingSpinner from '../../components/atoms/LoadingSpinner';
+import {transformArtistToApp} from '../../utilities/musicbrainz';
 
 const SearchScreen = (): JSX.Element => {
   const colorPalette = usePalette();
 
-  const dispatch: AppDispatch = useDispatch();
   const [search, setSearch] = useState<string>('');
-  const recentSearchValues = useSelector(
-    (state: RootState) => state.search.recentSearchValues,
-  );
-  const artists = useSelector(
-    (state: RootState) => state.search.currentArtistResults,
-  );
+
+  // TODO: Refactor so musicbrainzApi sequences API calls to one request per second
+  const searchValue = useDebounce(search, 1000);
+  const [loadSearch, result] = useLazySearchArtistByNameQuery();
+  const artists: KeyedArtistListItem[] = transformArtistToApp(result.data);
+  const artistLoading = result.isLoading;
+
+  useEffect(() => {
+    if (searchValue === '' || searchValue.length < 3) {
+      return;
+    }
+
+    loadSearch(searchValue);
+  }, [loadSearch, searchValue]);
 
   const updateSearch = (value: string) => {
     setSearch(value);
   };
 
   const submitSearch = () => {
-    dispatch(recordSearchValue(search));
+    loadSearch(searchValue);
   };
 
   return (
@@ -48,9 +56,7 @@ const SearchScreen = (): JSX.Element => {
             : 'default'
         }
       />
-      <Paragraph>Search results for {search}</Paragraph>
-      <SearchList items={recentSearchValues} />
-      <ArtistList artists={artists} />
+      {artistLoading ? <LoadingSpinner /> : <ArtistList artists={artists} />}
     </AppScreen>
   );
 };

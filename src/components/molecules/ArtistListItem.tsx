@@ -5,27 +5,27 @@ import {StyleSheet, View} from 'react-native';
 
 export type ArtistListItemProps = {
   name: string;
+  areaActive: string | null;
   yearsActive: {
-    begin: string;
+    begin: string | null;
     end: string | null;
   };
-  areaFormed: string;
 };
 
 const ArtistListItem = ({
   name,
+  areaActive,
   yearsActive,
-  areaFormed,
 }: ArtistListItemProps): JSX.Element => {
   return (
     <View style={styles.artistListItemContainer}>
       <View style={styles.artistListItemTextList}>
         <Subtitle>{name}</Subtitle>
         <Paragraph>
-          {yearsActive.begin}&nbsp;-&nbsp;
+          {yearsActive.begin !== null ? yearsActive.begin : ''}–
           {yearsActive.end !== null ? yearsActive.end : ''}
         </Paragraph>
-        <Paragraph>{areaFormed}</Paragraph>
+        {areaActive != null && <Paragraph>{areaActive}</Paragraph>}
       </View>
     </View>
   );

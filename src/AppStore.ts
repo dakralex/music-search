@@ -1,10 +1,16 @@
 import {configureStore} from '@reduxjs/toolkit';
-import searchReducer from './features/search/searchSlice';
+import searchReducer, {searchSlice} from './features/search/searchSlice';
+import musicbrainzApiReducer, {
+  musicbrainzApi,
+} from './features/services/musicbrainz';
 
 export const store = configureStore({
   reducer: {
-    search: searchReducer,
+    [searchSlice.name]: searchReducer,
+    [musicbrainzApi.reducerPath]: musicbrainzApiReducer,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(musicbrainzApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

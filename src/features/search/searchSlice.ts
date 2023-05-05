@@ -1,9 +1,9 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {KeyedArtistList} from '../../components/organisms/ArtistList';
+import {KeyedArtistListItem} from '../../components/organisms/ArtistList';
 
 export interface SearchState {
   recentSearchValues: Array<string>;
-  currentArtistResults: Array<KeyedArtistList>;
+  currentArtistResults: Array<KeyedArtistListItem>;
 }
 
 const initialState: SearchState = {
@@ -46,7 +46,7 @@ export const searchSlice = createSlice({
     },
     recordArtistResults: (
       state: SearchState,
-      action: PayloadAction<Array<KeyedArtistList>>,
+      action: PayloadAction<Array<KeyedArtistListItem>>,
     ) => {
       state.currentArtistResults = action.payload;
     },
