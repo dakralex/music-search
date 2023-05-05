@@ -1,6 +1,8 @@
 {
   "name": "@dakralex/music-search",
   "version": "0.0.1",
+  "license": "MIT",
+  "description": "An app that allows to find information about musicians and their discography.",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -22,7 +24,7 @@
     "@rneui/themed": "^4.0.0-rc.7",
     "@tsconfig/react-native": "^3.0.0",
     "@types/jest": "^29.2.1",
-    "@types/react": "^18.0.24",
+    "@types/react": "^18.2.5",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",
     "eslint": "^8.19.0",
