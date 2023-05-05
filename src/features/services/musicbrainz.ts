@@ -15,11 +15,15 @@ export const musicbrainzApi = createApi({
     searchArtistByName: builder.query<IArtistList, string>({
       query: name => `artist/?query=artist:${name}`,
     }),
+    getArtistAlbums: builder.query<any, string>({
+      query: mbid => `release/?artist=${mbid}`,
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const {useLazySearchArtistByNameQuery} = musicbrainzApi;
+export const {useLazySearchArtistByNameQuery, useGetArtistAlbumsQuery} =
+  musicbrainzApi;
 
 export default musicbrainzApi.reducer;

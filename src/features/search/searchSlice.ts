@@ -1,39 +1,11 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {KeyedArtistListItem} from '../../components/organisms/ArtistList';
 
 export interface SearchState {
   recentSearchValues: Array<string>;
-  currentArtistResults: Array<KeyedArtistListItem>;
 }
 
 const initialState: SearchState = {
   recentSearchValues: [],
-  currentArtistResults: [
-    {
-      id: '11ae9fbb-f3d7-4a47-936f-4c0a04d3b3b5',
-      name: 'The White Stripes',
-      yearsActive: {begin: '1997-07-14', end: '2011-02-02'},
-      areaFormed: 'Detroit, United States',
-    },
-    {
-      id: 'db4624cf-0e44-481e-a9dc-2142b833ec2f',
-      name: 'Robbie Williams',
-      yearsActive: {begin: '1974-02-13', end: null},
-      areaFormed: 'Stoke-on-Trent, United Kingdom',
-    },
-    {
-      id: 'aa7a2827-f74b-473c-bd79-03d065835cf7',
-      name: 'Franz Ferdinand',
-      yearsActive: {begin: '2001', end: null},
-      areaFormed: 'Glasgow, United Kingdom',
-    },
-    {
-      id: 'f2fb0ff0-5679-42ec-a55c-15109ce6e320',
-      name: 'Die Ärzte',
-      yearsActive: {begin: '1982', end: null},
-      areaFormed: 'Berlin, Germany',
-    },
-  ],
 };
 
 export const searchSlice = createSlice({
@@ -42,20 +14,9 @@ export const searchSlice = createSlice({
   reducers: {
     recordSearchValue: (state: SearchState, action: PayloadAction<string>) => {
       state.recentSearchValues.push(action.payload);
-      // state.recentSearchValues.slice(0, 10);
-    },
-    recordArtistResults: (
-      state: SearchState,
-      action: PayloadAction<Array<KeyedArtistListItem>>,
-    ) => {
-      state.currentArtistResults = action.payload;
-    },
-    clearArtistResults: (state: SearchState) => {
-      state.currentArtistResults = [];
     },
   },
 });
 
-export const {recordSearchValue, recordArtistResults, clearArtistResults} =
-  searchSlice.actions;
+export const {recordSearchValue} = searchSlice.actions;
 export default searchSlice.reducer;

@@ -1,13 +1,19 @@
 import React from 'react';
-import HomeScreen from '../screens/HomeScreen';
 import {Icon} from '@rneui/themed';
+import {usePalette} from '../../hooks/Colors';
+import HomeScreen from '../screens/HomeScreen';
 import SearchScreen from '../screens/SearchScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {usePalette} from '../../hooks/Colors';
 import {getNavigationStyles} from '../../styles/Navigation';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-const Tab = createBottomTabNavigator();
+export type TabNavigationList = {
+  Home: undefined;
+  Search: {initialSearchValue: string};
+  Favorites: undefined;
+};
+
+const Tab = createBottomTabNavigator<TabNavigationList>();
 
 const MainNavigation = (): JSX.Element => {
   const colorPalette = usePalette();
@@ -35,6 +41,7 @@ const MainNavigation = (): JSX.Element => {
       <Tab.Screen
         name="Search"
         component={SearchScreen}
+        initialParams={{initialSearchValue: ''}}
         options={{
           tabBarIcon: ({color, size}) => (
             <Icon type="material" name="search" color={color} size={size} />

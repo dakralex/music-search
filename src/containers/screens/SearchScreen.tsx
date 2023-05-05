@@ -1,26 +1,31 @@
 import React, {useEffect, useState} from 'react';
 import AppScreen from './AppScreen';
-import {Platform} from 'react-native';
-import {SearchBar} from '@rneui/themed';
-import {usePalette} from '../../hooks/Colors';
 import useDebounce from '../../hooks/useDebounce';
+import {TabNavigationList} from '../navigation/MainNavigation';
+import {transformArtistToApp} from '../../utilities/musicbrainz';
+import LoadingSpinner from '../../components/atoms/LoadingSpinner';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import ArtistSearchBar from '../../components/molecules/ArtistSearchBar';
+import {useLazySearchArtistByNameQuery} from '../../features/services/musicbrainz';
 import ArtistList, {
   KeyedArtistListItem,
 } from '../../components/organisms/ArtistList';
-import {useLazySearchArtistByNameQuery} from '../../features/services/musicbrainz';
-import LoadingSpinner from '../../components/atoms/LoadingSpinner';
-import {transformArtistToApp} from '../../utilities/musicbrainz';
 
-const SearchScreen = (): JSX.Element => {
-  const colorPalette = usePalette();
+type SearchScreenProps = BottomTabNavigationProp<TabNavigationList, 'Search'>;
 
-  const [search, setSearch] = useState<string>('');
+const SearchScreen = ({route}: SearchScreenProps): JSX.Element => {
+  const {initialSearchValue} = route.params;
+  const [search, setSearch] = useState<string>(initialSearchValue);
 
   // TODO: Refactor so musicbrainzApi sequences API calls to one request per second
   const searchValue = useDebounce(search, 1000);
-  const [loadSearch, result] = useLazySearchArtistByNameQuery();
-  const artists: KeyedArtistListItem[] = transformArtistToApp(result.data);
-  const artistLoading = result.isLoading;
+  const [loadSearch, {data, isLoading: artistsLoading}] =
+    useLazySearchArtistByNameQuery();
+  const artists: KeyedArtistListItem[] = transformArtistToApp(data);
+
+  useEffect(() => {
+    setSearch(initialSearchValue);
+  }, [initialSearchValue]);
 
   useEffect(() => {
     if (searchValue === '' || searchValue.length < 3) {
@@ -30,33 +35,18 @@ const SearchScreen = (): JSX.Element => {
     loadSearch(searchValue);
   }, [loadSearch, searchValue]);
 
-  const updateSearch = (value: string) => {
-    setSearch(value);
-  };
-
   const submitSearch = () => {
     loadSearch(searchValue);
   };
 
   return (
     <AppScreen>
-      <SearchBar
-        containerStyle={{
-          backgroundColor: colorPalette.foreground,
-          marginVertical: 16,
-          borderRadius: 6,
-        }}
-        onChangeText={updateSearch}
-        onSubmitEditing={submitSearch}
-        placeholder={'ex. The Beatles'}
-        value={search}
-        platform={
-          Platform.OS === 'ios' || Platform.OS === 'android'
-            ? Platform.OS
-            : 'default'
-        }
+      <ArtistSearchBar
+        searchValue={search}
+        setSearchValue={setSearch}
+        submitSearch={submitSearch}
       />
-      {artistLoading ? <LoadingSpinner /> : <ArtistList artists={artists} />}
+      {artistsLoading ? <LoadingSpinner /> : <ArtistList artists={artists} />}
     </AppScreen>
   );
 };
