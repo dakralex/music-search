@@ -1,14 +1,22 @@
 import React from 'react';
 import Paragraph from '../atoms/Paragraph';
-import {StyleProp, ViewStyle} from 'react-native';
+import {StyleProp, TouchableOpacity, ViewStyle} from 'react-native';
 
 type SearchListItemProps = {
   children: string;
+  onPress?: () => void;
   containerStyle: StyleProp<ViewStyle>;
 };
 
-const SearchListItem = ({children}: SearchListItemProps): JSX.Element => {
-  return <Paragraph>{children}</Paragraph>;
+const SearchListItem = ({
+  children,
+  onPress,
+}: SearchListItemProps): JSX.Element => {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <Paragraph>{children}</Paragraph>
+    </TouchableOpacity>
+  );
 };
 
 export default SearchListItem;

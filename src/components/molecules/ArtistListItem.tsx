@@ -1,9 +1,11 @@
 import React from 'react';
 import Subtitle from '../atoms/Subtitle';
 import Paragraph from '../atoms/Paragraph';
-import {StyleSheet, View} from 'react-native';
+import {Button, Icon} from '@rneui/themed';
+import {useForegroundColor} from '../../hooks/Colors';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
-export type ArtistListItemProps = {
+export type IArtistListItem = {
   name: string;
   areaActive: string | null;
   yearsActive: {
@@ -12,22 +14,42 @@ export type ArtistListItemProps = {
   };
 };
 
+export interface ArtistListItemProps extends IArtistListItem {
+  onPress?: () => void;
+}
+
 const ArtistListItem = ({
   name,
   areaActive,
   yearsActive,
+  onPress,
 }: ArtistListItemProps): JSX.Element => {
+  const foregroundColor = useForegroundColor();
+
   return (
-    <View style={styles.artistListItemContainer}>
-      <View style={styles.artistListItemTextList}>
-        <Subtitle>{name}</Subtitle>
-        <Paragraph>
-          {yearsActive.begin !== null ? yearsActive.begin : ''}–
-          {yearsActive.end !== null ? yearsActive.end : ''}
-        </Paragraph>
-        {areaActive != null && <Paragraph>{areaActive}</Paragraph>}
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.artistListItemContainer}>
+        <View style={styles.artistListItemTextList}>
+          <Subtitle>{name}</Subtitle>
+          <Paragraph>
+            {yearsActive.begin !== null ? yearsActive.begin : ''}–
+            {yearsActive.end !== null ? yearsActive.end : ''}
+          </Paragraph>
+          {areaActive != null && <Paragraph>{areaActive}</Paragraph>}
+        </View>
+        <Button
+          type="clear"
+          icon={
+            <Icon
+              type="material"
+              name="arrow-right"
+              size={42}
+              color={foregroundColor}
+            />
+          }
+        />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -35,6 +57,7 @@ const styles = StyleSheet.create({
   artistListItemContainer: {
     flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
     marginTop: 24,
   },
   artistListItemTextList: {

@@ -1,17 +1,25 @@
 import React from 'react';
-import SearchListItem from '../molecules/SearchListItem';
 import {FlatList, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import SearchListItem from '../molecules/SearchListItem';
+import {TabNavigationList} from '../../containers/navigation/TabNavigation';
 
 type SearchListProps = {
   items: Array<string>;
 };
 const SearchList = ({items}: SearchListProps): JSX.Element => {
+  const navigation = useNavigation<TabNavigationList>();
+
   return (
     <FlatList
       data={items}
       contentContainerStyle={styles.searchListContainer}
       renderItem={({item}) => (
-        <SearchListItem containerStyle={styles.searchListItemContainer}>
+        <SearchListItem
+          onPress={() => {
+            navigation.navigate('Search', {initialSearchValue: item});
+          }}
+          containerStyle={styles.searchListItemContainer}>
           {item}
         </SearchListItem>
       )}

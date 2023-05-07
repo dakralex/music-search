@@ -1,63 +1,35 @@
 import React from 'react';
-import {Icon} from '@rneui/themed';
+import TabNavigation from './TabNavigation';
 import {usePalette} from '../../hooks/Colors';
-import HomeScreen from '../screens/HomeScreen';
-import SearchScreen from '../screens/SearchScreen';
-import FavoritesScreen from '../screens/FavoritesScreen';
+import DetailsScreen from '../screens/DetailsScreen';
 import {getNavigationStyles} from '../../styles/Navigation';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-export type TabNavigationList = {
-  Home: undefined;
-  Search: {initialSearchValue: string};
-  Favorites: undefined;
+export type MainNavigationList = {
+  Root: undefined;
+  Details: {artistMbid: string};
 };
 
-const Tab = createBottomTabNavigator<TabNavigationList>();
+const Stack = createNativeStackNavigator<MainNavigationList>();
 
-const MainNavigation = (): JSX.Element => {
+const MainNavigation = () => {
   const colorPalette = usePalette();
   const navigationStyles = getNavigationStyles(colorPalette);
 
   return (
-    <Tab.Navigator
-      initialRouteName="Home"
+    <Stack.Navigator
+      initialRouteName="Root"
       screenOptions={{
         headerStyle: navigationStyles.headerContainer,
         headerTitleStyle: navigationStyles.headerText,
-        tabBarStyle: navigationStyles.tabBarContainer,
-        tabBarLabelStyle: navigationStyles.tabBarText,
-        tabBarActiveTintColor: navigationStyles.tabBarTextActive.color,
       }}>
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarIcon: ({color, size}) => (
-            <Icon type="material" name="home" color={color} size={size} />
-          ),
-        }}
+      <Stack.Screen
+        name="Root"
+        component={TabNavigation}
+        options={{headerShown: false}}
       />
-      <Tab.Screen
-        name="Search"
-        component={SearchScreen}
-        initialParams={{initialSearchValue: ''}}
-        options={{
-          tabBarIcon: ({color, size}) => (
-            <Icon type="material" name="search" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Favorites"
-        component={FavoritesScreen}
-        options={{
-          tabBarIcon: ({color, size}) => (
-            <Icon type="material" name="star" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+      <Stack.Screen name="Details" component={DetailsScreen} />
+    </Stack.Navigator>
   );
 };
 

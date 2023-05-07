@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import AppScreen from './AppScreen';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../AppStore';
-import {TabNavigationList} from '../navigation/MainNavigation';
+import {TabNavigationList} from '../navigation/TabNavigation';
 import SearchList from '../../components/organisms/SearchList';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import ArtistSearchBar from '../../components/molecules/ArtistSearchBar';
@@ -17,7 +17,7 @@ const HomeScreen = ({navigation}: HomeScreenProps): JSX.Element => {
   const [search, setSearch] = useState<string>('');
 
   const submitSearch = () => {
-    navigation.jumpTo('Search', {initialSearchValue: search});
+    navigation.navigate('Search', {initialSearchValue: search});
   };
 
   return (

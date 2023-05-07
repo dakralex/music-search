@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import AppScreen from './AppScreen';
 import useDebounce from '../../hooks/useDebounce';
-import {TabNavigationList} from '../navigation/MainNavigation';
+import {TabNavigationList} from '../navigation/TabNavigation';
 import {transformArtistToApp} from '../../utilities/musicbrainz';
 import LoadingSpinner from '../../components/atoms/LoadingSpinner';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
