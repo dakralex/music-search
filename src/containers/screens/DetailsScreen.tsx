@@ -5,7 +5,6 @@ import {Divider} from '@rneui/themed';
 import AlbumList from '../../components/organisms/AlbumList';
 import {MainNavigationList} from '../navigation/MainNavigation';
 import ArtistListItem from '../../components/molecules/ArtistListItem';
-import {transformReleaseGroupsToApp} from '../../utilities/musicbrainz';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useGetArtistReleaseGroupsQuery} from '../../features/services/musicbrainz';
 
@@ -16,7 +15,7 @@ type DetailsScreenProps = NativeStackNavigationProp<
 
 const DetailsScreen = ({route}: DetailsScreenProps): JSX.Element => {
   const {artist} = route.params;
-  const {data: albumsArray, isLoading: albumsLoading} =
+  const {data: albums, isLoading: albumsLoading} =
     useGetArtistReleaseGroupsQuery(artist.id);
 
   return (
@@ -24,10 +23,7 @@ const DetailsScreen = ({route}: DetailsScreenProps): JSX.Element => {
       <View>
         <ArtistListItem artist={artist} shouldBeNavigable={false} />
         <Divider style={{marginVertical: 16}} />
-        <AlbumList
-          albums={transformReleaseGroupsToApp(albumsArray)}
-          isLoading={albumsLoading}
-        />
+        <AlbumList albums={albums} isLoading={albumsLoading} />
       </View>
     </AppScreen>
   );

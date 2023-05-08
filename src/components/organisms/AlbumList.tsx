@@ -7,7 +7,7 @@ import AlbumListItem, {IAlbumListItem} from '../molecules/AlbumListItem';
 export type IAlbumList = Array<IAlbumListItem>;
 
 type AlbumListProps = {
-  albums: IAlbumList;
+  albums?: IAlbumList;
   isLoading: boolean;
 };
 

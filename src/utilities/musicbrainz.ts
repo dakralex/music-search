@@ -9,7 +9,12 @@ import {
   IReleaseGroupMatch as IMbReleaseGroupMatch,
 } from 'musicbrainz-api/lib/musicbrainz.types';
 
-export const transformArtistToApp = (
+/**
+ * Transforms response from MusicBrainz' Artist Search API to usable data.
+ *
+ * @param artistArray
+ */
+export const transformArtistSearchResults = (
   artistArray?: IMbArtistList,
 ): IArtistList => {
   const artists: IArtistList = (artistArray?.artists ?? []).map(
@@ -43,10 +48,15 @@ export const transformArtistToApp = (
   });
 };
 
-export const transformReleaseGroupsToApp = (
-  releasesArray?: IMbReleaseGroupList,
+/**
+ * Transforms response from MusicBrainz' Release Group API to usable data.
+ *
+ * @param releaseGroupsArray
+ */
+export const transformReleaseGroupsInfo = (
+  releaseGroupsArray?: IMbReleaseGroupList,
 ): IAlbumList => {
-  return (releasesArray?.['release-groups'] ?? []).map(
+  return (releaseGroupsArray?.['release-groups'] ?? []).map(
     (release: IMbReleaseGroupMatch): IAlbumListItem => {
       return {
         id: release.id,

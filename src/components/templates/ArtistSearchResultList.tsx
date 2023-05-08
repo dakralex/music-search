@@ -3,7 +3,7 @@ import LoadingSpinner from '../atoms/LoadingSpinner';
 import ArtistList, {IArtistList} from '../organisms/ArtistList';
 
 type ArtistSearchResultListProps = {
-  artists: IArtistList;
+  artists?: IArtistList;
   isLoading: boolean;
 };
 const ArtistSearchResultList = ({

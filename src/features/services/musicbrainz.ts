@@ -1,8 +1,10 @@
+import {IAlbumList} from '../../components/organisms/AlbumList';
+import {IArtistList} from '../../components/organisms/ArtistList';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import {
-  IArtistList as IMbArtistList,
-  IReleaseGroupList as IMbReleaseGroupList,
-} from 'musicbrainz-api/lib/musicbrainz.types';
+  transformArtistSearchResults,
+  transformReleaseGroupsInfo,
+} from '../../utilities/musicbrainz';
 
 export const musicbrainzApi = createApi({
   reducerPath: 'musicbrainz',
@@ -15,11 +17,19 @@ export const musicbrainzApi = createApi({
     },
   }),
   endpoints: builder => ({
-    searchArtistByName: builder.query<IMbArtistList, string>({
+    searchArtistByName: builder.query<IArtistList, string>({
       query: name => `artist/?query=artist:${name}`,
+      transformResponse: artistArray => {
+        // @ts-ignore
+        return transformArtistSearchResults(artistArray);
+      },
     }),
-    getArtistReleaseGroups: builder.query<IMbReleaseGroupList, string>({
+    getArtistReleaseGroups: builder.query<IAlbumList, string>({
       query: mbid => `release-group/?artist=${mbid}&type=album`,
+      transformResponse: releaseGroupsArray => {
+        // @ts-ignore
+        return transformReleaseGroupsInfo(releaseGroupsArray);
+      },
     }),
   }),
 });

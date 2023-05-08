@@ -7,7 +7,7 @@ import {MainNavigationList} from '../../containers/navigation/MainNavigation';
 export type IArtistList = Array<IArtistListItem>;
 
 type ArtistListProps = {
-  artists: IArtistList;
+  artists?: IArtistList;
 };
 
 const ArtistList = ({artists}: ArtistListProps): JSX.Element => {

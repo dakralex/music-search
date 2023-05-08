@@ -1,7 +1,6 @@
 import React from 'react';
 import AppScreen from './AppScreen';
 import {TabNavigationList} from '../navigation/TabNavigation';
-import {transformArtistToApp} from '../../utilities/musicbrainz';
 import ArtistSearch from '../../components/templates/ArtistSearch';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {useLazySearchArtistByNameQuery} from '../../features/services/musicbrainz';
@@ -11,7 +10,7 @@ type SearchScreenProps = BottomTabNavigationProp<TabNavigationList, 'Search'>;
 
 const SearchScreen = ({route}: SearchScreenProps): JSX.Element => {
   const {initialSearchValue} = route.params;
-  const [loadSearch, {data, isLoading: artistsLoading}] =
+  const [loadSearch, {data: artists, isLoading: artistsLoading}] =
     useLazySearchArtistByNameQuery();
 
   return (
@@ -20,10 +19,7 @@ const SearchScreen = ({route}: SearchScreenProps): JSX.Element => {
         initialSearchValue={initialSearchValue}
         loadSearch={loadSearch}
       />
-      <ArtistSearchResultList
-        isLoading={artistsLoading}
-        artists={transformArtistToApp(data)}
-      />
+      <ArtistSearchResultList artists={artists} isLoading={artistsLoading} />
     </AppScreen>
   );
 };
