@@ -1,5 +1,8 @@
 import {configureStore} from '@reduxjs/toolkit';
 import searchReducer, {searchSlice} from './features/search/searchSlice';
+import favoritesReducer, {
+  favoritesSlice,
+} from './features/favorites/favoritesSlice';
 import musicbrainzApiReducer, {
   musicbrainzApi,
 } from './features/services/musicbrainz';
@@ -7,6 +10,7 @@ import musicbrainzApiReducer, {
 export const store = configureStore({
   reducer: {
     [searchSlice.name]: searchReducer,
+    [favoritesSlice.name]: favoritesReducer,
     [musicbrainzApi.reducerPath]: musicbrainzApiReducer,
   },
   middleware: getDefaultMiddleware =>
