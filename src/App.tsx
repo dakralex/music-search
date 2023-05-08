@@ -1,6 +1,7 @@
 import React from 'react';
-import {store} from './AppStore';
+import {persistor, store} from './AppStore';
 import {Provider as StoreProvider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import MainNavigation from './containers/navigation/MainNavigation';
@@ -9,9 +10,11 @@ const App = (): JSX.Element => {
   return (
     <SafeAreaProvider>
       <StoreProvider store={store}>
-        <NavigationContainer>
-          <MainNavigation />
-        </NavigationContainer>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContainer>
+            <MainNavigation />
+          </NavigationContainer>
+        </PersistGate>
       </StoreProvider>
     </SafeAreaProvider>
   );

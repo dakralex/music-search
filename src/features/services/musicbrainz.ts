@@ -11,7 +11,7 @@ export const musicbrainzApi = createApi({
     headers: {
       Accept: 'application/json',
       Content: 'application/json',
-      'User-Agent': 'MusicSearch/v0.0.1 ( dakral@protonmail.com )',
+      'User-Agent': 'MusicSearch/v1.0 ( dakral@protonmail.com )',
     },
   }),
   endpoints: builder => ({
@@ -28,5 +28,4 @@ export const musicbrainzApi = createApi({
 // auto-generated based on the defined endpoints
 export const {useLazySearchArtistByNameQuery, useGetArtistReleaseGroupsQuery} =
   musicbrainzApi;
-
 export default musicbrainzApi.reducer;
