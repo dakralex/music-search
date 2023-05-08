@@ -46,6 +46,24 @@ export const transformArtistSearchResults = (
   });
 };
 
+const sortIAlbumList = (a: IAlbumListItem, b: IAlbumListItem): number => {
+  const releaseA = parseInt(a.release ?? '0', 10),
+    releaseB = parseInt(b.release ?? '0', 10);
+
+  if (releaseA < releaseB) {
+    return -1;
+  }
+
+  if (releaseA > releaseB) {
+    return 1;
+  }
+
+  const nameA = a.name.toLowerCase(),
+    nameB = b.name.toLowerCase();
+
+  return nameA.localeCompare(nameB);
+};
+
 /**
  * Transforms response from MusicBrainz' Release Group API to usable data.
  *
@@ -62,7 +80,7 @@ export const transformReleaseGroupsInfo = (
   );
 
   // Map response values to IAlbumList
-  return filteredReleaseGroupsArray.map(
+  const releaseGroups = filteredReleaseGroupsArray.map(
     (releaseGroup: IMbReleaseGroupMatch): IAlbumListItem => {
       const release = releaseGroup?.['first-release-date'];
       const releaseDate = release
@@ -76,4 +94,6 @@ export const transformReleaseGroupsInfo = (
       };
     },
   );
+
+  return releaseGroups.sort(sortIAlbumList);
 };
