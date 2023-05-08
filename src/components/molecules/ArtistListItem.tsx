@@ -1,15 +1,10 @@
 import React from 'react';
-import {RootState} from '../../AppStore';
+import {Icon} from '@rneui/themed';
 import Subtitle from '../atoms/Subtitle';
 import Paragraph from '../atoms/Paragraph';
-import {Button, Icon} from '@rneui/themed';
 import {StyleSheet, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {useForegroundColor, usePrimaryColor} from '../../hooks/Colors';
-import {
-  addFavoriteArtist,
-  removeFavoriteArtist,
-} from '../../features/favorites/favoritesSlice';
+import {useForegroundColor} from '../../hooks/Colors';
+import FavoriteArtistButton from '../atoms/FavoriteArtistButton';
 
 export type IArtistListItem = {
   id: string;
@@ -32,15 +27,8 @@ const ArtistListItem = ({
   shouldBeFavorable = true,
   shouldBeNavigable = true,
 }: ArtistListItemProps): JSX.Element => {
-  const {id, name, area, lifespan} = artist;
-
-  const dispatch = useDispatch();
-  const isFavoriteArtist = useSelector(
-    (state: RootState) => !!state.favorites.favoriteArtists[id],
-  );
-
-  const primaryColor = usePrimaryColor();
   const foregroundColor = useForegroundColor();
+  const {name, area, lifespan} = artist;
 
   return (
     <View style={styles.artistListItemContainer}>
@@ -53,24 +41,9 @@ const ArtistListItem = ({
         {area != null && <Paragraph>{area}</Paragraph>}
       </View>
       {shouldBeFavorable && (
-        <Button
-          type="clear"
-          onPress={() => {
-            dispatch(
-              isFavoriteArtist
-                ? removeFavoriteArtist(id)
-                : addFavoriteArtist(artist),
-            );
-          }}
-          icon={
-            <Icon
-              type="material"
-              name="star"
-              size={28}
-              color={isFavoriteArtist ? primaryColor : foregroundColor}
-              style={shouldBeNavigable ? {marginRight: 8} : {}}
-            />
-          }
+        <FavoriteArtistButton
+          artist={artist}
+          iconStyle={shouldBeNavigable ? {marginRight: 8} : {}}
         />
       )}
       {shouldBeNavigable && (
@@ -90,7 +63,6 @@ const styles = StyleSheet.create({
   artistListItemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 24,
   },
   artistListItemTextList: {
     flex: 1,

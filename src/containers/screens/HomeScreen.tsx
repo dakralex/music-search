@@ -2,6 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import AppScreen from './AppScreen';
 import {Divider} from '@rneui/themed';
+import {globalStyles} from '../../styles/Globals';
 import {TabNavigationList} from '../navigation/TabNavigation';
 import WelcomeHeader from '../../components/templates/WelcomeHeader';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
@@ -15,7 +16,7 @@ const HomeScreen = ({}: HomeScreenProps): JSX.Element => {
     <AppScreen>
       <View>
         <WelcomeHeader />
-        <Divider style={{marginVertical: 16}} />
+        <Divider style={globalStyles.divider} />
         <ArtistSearchLink />
         <RecentSearchList />
       </View>

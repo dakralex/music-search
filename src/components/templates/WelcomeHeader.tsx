@@ -1,11 +1,11 @@
 import React from 'react';
-import {View} from 'react-native';
 import Title from '../atoms/Title';
 import Subtitle from '../atoms/Subtitle';
+import {StyleSheet, View} from 'react-native';
 
 const WelcomeHeader = () => {
   return (
-    <View style={{marginTop: 16}}>
+    <View style={styles.welcomeHeaderContainer}>
       <Title fontSize={36} fontWeight="bold">
         Welcome to MusicSearch!
       </Title>
@@ -13,5 +13,11 @@ const WelcomeHeader = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  welcomeHeaderContainer: {
+    marginTop: 16,
+  },
+});
 
 export default WelcomeHeader;

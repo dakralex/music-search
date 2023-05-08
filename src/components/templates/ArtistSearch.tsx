@@ -9,6 +9,9 @@ type ArtistSearchProps = {
   loadSearch: LazyQueryTrigger<any>;
 };
 
+const shouldSearch = (searchValue: string) =>
+  searchValue !== '' && searchValue.length > 3;
+
 const ArtistSearch = ({initialSearchValue, loadSearch}: ArtistSearchProps) => {
   const [searchValue, setSearchValue] = useState<string>(initialSearchValue);
   const triggerSearch = useTrigger(() => {
@@ -23,19 +26,21 @@ const ArtistSearch = ({initialSearchValue, loadSearch}: ArtistSearchProps) => {
   const debouncedSearchValue = useDebounce(searchValue, 1000);
 
   useEffect(() => {
-    triggerSearch();
+    if (shouldSearch(debouncedSearchValue)) {
+      triggerSearch();
+    }
   }, [initialSearchValue, debouncedSearchValue]);
 
   useEffect(() => {
-    if (searchValue === '' || searchValue.length < 3) {
-      return;
+    if (shouldSearch(searchValue)) {
+      loadSearch(searchValue);
     }
-
-    loadSearch(searchValue);
   }, [loadSearch, searchValue]);
 
   const submitSearch = () => {
-    triggerSearch();
+    if (shouldSearch(searchValue)) {
+      triggerSearch();
+    }
   };
 
   return (
