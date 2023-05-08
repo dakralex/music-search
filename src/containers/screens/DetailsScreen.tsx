@@ -15,15 +15,21 @@ type DetailsScreenProps = NativeStackNavigationProp<
 
 const DetailsScreen = ({route}: DetailsScreenProps): JSX.Element => {
   const {artist} = route.params;
-  const {data: albums, isLoading: albumsLoading} =
-    useGetArtistReleaseGroupsQuery(artist.id);
+  const {
+    data: albums,
+    isLoading: albumsLoading,
+    isFetching: albumsFetching,
+  } = useGetArtistReleaseGroupsQuery(artist.id);
 
   return (
     <AppScreen>
       <View>
         <ArtistListItem artist={artist} shouldBeNavigable={false} />
         <Divider style={{marginVertical: 16}} />
-        <AlbumList albums={albums} isLoading={albumsLoading} />
+        <AlbumList
+          albums={albums}
+          isLoading={albumsLoading || albumsFetching}
+        />
       </View>
     </AppScreen>
   );

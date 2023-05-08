@@ -21,6 +21,8 @@ import {
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  // Sorry for the following key word
+  blacklist: [musicbrainzApi.reducerPath],
 };
 
 // Combine all the applications' reducers

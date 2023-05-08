@@ -25,11 +25,11 @@ const ArtistSearchBar = ({
 
   const dispatch: AppDispatch = useDispatch();
 
-  const updateSearch = (searchValue: string) => {
-    setSearchValue(searchValue);
+  const updateSearch = (search: string) => {
+    setSearchValue(search);
 
     if (updateSearchFunc) {
-      updateSearchFunc(searchValue);
+      updateSearchFunc(search);
     }
   };
 

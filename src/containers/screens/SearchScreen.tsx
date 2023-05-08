@@ -10,8 +10,10 @@ type SearchScreenProps = BottomTabNavigationProp<TabNavigationList, 'Search'>;
 
 const SearchScreen = ({route}: SearchScreenProps): JSX.Element => {
   const {initialSearchValue} = route.params;
-  const [loadSearch, {data: artists, isLoading: artistsLoading}] =
-    useLazySearchArtistByNameQuery();
+  const [
+    loadSearch,
+    {data: artists, isLoading: artistsLoading, isFetching: artistsFetching},
+  ] = useLazySearchArtistByNameQuery();
 
   return (
     <AppScreen>
@@ -19,7 +21,10 @@ const SearchScreen = ({route}: SearchScreenProps): JSX.Element => {
         initialSearchValue={initialSearchValue}
         loadSearch={loadSearch}
       />
-      <ArtistSearchResultList artists={artists} isLoading={artistsLoading} />
+      <ArtistSearchResultList
+        artists={artists}
+        isLoading={artistsLoading || artistsFetching}
+      />
     </AppScreen>
   );
 };
