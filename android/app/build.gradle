@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.musicsearch"
+    namespace "org.dakralex.musicsearch"
     defaultConfig {
-        applicationId "com.musicsearch"
+        applicationId "org.dakralex.musicsearch"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -117,6 +117,16 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+
+        release {
+            if (project.hasProperty('ANDROID_RELEASE_UPLOAD_STORE_FILE')) {
+
+                storeFile file(ANDROID_RELEASE_UPLOAD_STORE_FILE)
+                storePassword ANDROID_RELEASE_UPLOAD_STORE_PASSWORD
+                keyAlias ANDROID_RELEASE_UPLOAD_KEY_ALIAS
+                keyPassword ANDROID_RELEASE_UPLOAD_KEY_PASSWORD
+            }
+        }
     }
     buildTypes {
         debug {
@@ -125,7 +135,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -169,8 +179,8 @@ dependencies {
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 
-//project.ext.vectoricons = [
-//    iconFontNames: [ '' ]
-//]
+project.ext.vectoricons = [
+    iconFontNames: [ 'MaterialIcons.ttf' ]
+]
 
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")

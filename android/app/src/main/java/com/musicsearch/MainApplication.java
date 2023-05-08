@@ -1,4 +1,4 @@
-package com.musicsearch;
+package org.dakralex.musicsearch;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
