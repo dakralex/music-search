@@ -13,7 +13,18 @@ export const searchSlice = createSlice({
   initialState,
   reducers: {
     recordSearchValue: (state: SearchState, action: PayloadAction<string>) => {
+      const getGeneralTerm = (searchValue: string) =>
+        searchValue.toLowerCase().replace(/\s/g, '');
+      const generalSearchTerm = getGeneralTerm(action.payload);
+
+      state.recentSearchValues = state.recentSearchValues.filter(
+        (searchValue: string) =>
+          getGeneralTerm(searchValue) !== generalSearchTerm,
+      );
+
       state.recentSearchValues.push(action.payload);
+
+      state.recentSearchValues.splice(5);
     },
   },
 });
