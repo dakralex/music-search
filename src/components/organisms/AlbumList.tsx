@@ -16,7 +16,7 @@ const AlbumList = ({albums, isLoading}: AlbumListProps) => {
     <LoadingSpinner />
   ) : (
     <FlatList
-      ListHeaderComponent={<Subtitle>Albums</Subtitle>}
+      ListHeaderComponent={<Subtitle fontWeight="bold">Albums</Subtitle>}
       data={albums}
       renderItem={({item: album}) => <AlbumListItem album={album} />}
     />

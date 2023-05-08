@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
-import Subtitle from '../atoms/Subtitle';
 import {useNavigation} from '@react-navigation/native';
 import ArtistSearchBar from '../molecules/ArtistSearchBar';
 import {TabNavigationList} from '../../containers/navigation/TabNavigation';
@@ -14,14 +12,11 @@ const ArtistSearchLink = () => {
   };
 
   return (
-    <View>
-      <Subtitle>Search for an artist</Subtitle>
-      <ArtistSearchBar
-        searchValue={search}
-        setSearchValue={setSearch}
-        submitSearch={submitSearch}
-      />
-    </View>
+    <ArtistSearchBar
+      searchValue={search}
+      setSearchValue={setSearch}
+      submitSearch={submitSearch}
+    />
   );
 };
 

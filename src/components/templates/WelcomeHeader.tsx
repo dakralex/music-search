@@ -5,7 +5,7 @@ import Subtitle from '../atoms/Subtitle';
 
 const WelcomeHeader = () => {
   return (
-    <View>
+    <View style={{marginTop: 16}}>
       <Title fontSize={36} fontWeight="bold">
         Welcome to MusicSearch!
       </Title>
