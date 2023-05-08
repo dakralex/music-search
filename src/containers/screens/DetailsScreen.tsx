@@ -1,11 +1,13 @@
 import React from 'react';
+import {View} from 'react-native';
 import AppScreen from './AppScreen';
-import {FlatList} from 'react-native';
-import Paragraph from '../../components/atoms/Paragraph';
+import {Divider} from '@rneui/themed';
+import AlbumList from '../../components/organisms/AlbumList';
 import {MainNavigationList} from '../navigation/MainNavigation';
-import LoadingSpinner from '../../components/atoms/LoadingSpinner';
+import ArtistListItem from '../../components/molecules/ArtistListItem';
+import {transformReleaseGroupsToApp} from '../../utilities/musicbrainz';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useGetArtistReleasesQuery} from '../../features/services/musicbrainz';
+import {useGetArtistReleaseGroupsQuery} from '../../features/services/musicbrainz';
 
 type DetailsScreenProps = NativeStackNavigationProp<
   MainNavigationList,
@@ -13,19 +15,20 @@ type DetailsScreenProps = NativeStackNavigationProp<
 >;
 
 const DetailsScreen = ({route}: DetailsScreenProps): JSX.Element => {
-  const {artistMbid} = route.params;
-  const {data, isLoading} = useGetArtistReleasesQuery(artistMbid);
-  console.log(data);
+  const {artist} = route.params;
+  const {data: albumsArray, isLoading: albumsLoading} =
+    useGetArtistReleaseGroupsQuery(artist.id);
+
   return (
     <AppScreen>
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <FlatList
-          data={data.releases}
-          renderItem={({item}) => <Paragraph>{item.title}</Paragraph>}
+      <View>
+        <ArtistListItem artist={artist} shouldBeNavigable={false} />
+        <Divider style={{marginVertical: 16}} />
+        <AlbumList
+          albums={transformReleaseGroupsToApp(albumsArray)}
+          isLoading={albumsLoading}
         />
-      )}
+      </View>
     </AppScreen>
   );
 };

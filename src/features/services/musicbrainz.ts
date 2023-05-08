@@ -1,5 +1,8 @@
-import {IArtistList} from 'musicbrainz-api/lib/musicbrainz.types';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {
+  IArtistList as IMbArtistList,
+  IReleaseGroupList as IMbReleaseGroupList,
+} from 'musicbrainz-api/lib/musicbrainz.types';
 
 export const musicbrainzApi = createApi({
   reducerPath: 'musicbrainz',
@@ -12,18 +15,18 @@ export const musicbrainzApi = createApi({
     },
   }),
   endpoints: builder => ({
-    searchArtistByName: builder.query<IArtistList, string>({
+    searchArtistByName: builder.query<IMbArtistList, string>({
       query: name => `artist/?query=artist:${name}`,
     }),
-    getArtistReleases: builder.query<any, string>({
-      query: mbid => `release/?artist=${mbid}`,
+    getArtistReleaseGroups: builder.query<IMbReleaseGroupList, string>({
+      query: mbid => `release-group/?artist=${mbid}&type=album`,
     }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const {useLazySearchArtistByNameQuery, useGetArtistReleasesQuery} =
+export const {useLazySearchArtistByNameQuery, useGetArtistReleaseGroupsQuery} =
   musicbrainzApi;
 
 export default musicbrainzApi.reducer;

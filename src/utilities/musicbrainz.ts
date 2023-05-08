@@ -1,11 +1,19 @@
-import {KeyedArtistListItem} from '../components/organisms/ArtistList';
-import {IArtistList, IArtistMatch} from 'musicbrainz-api/lib/musicbrainz.types';
+import {IAlbumList} from '../components/organisms/AlbumList';
+import {IArtistList} from '../components/organisms/ArtistList';
+import {IAlbumListItem} from '../components/molecules/AlbumListItem';
+import {IArtistListItem} from '../components/molecules/ArtistListItem';
+import {
+  IArtistList as IMbArtistList,
+  IArtistMatch as IMbArtistMatch,
+  IReleaseGroupList as IMbReleaseGroupList,
+  IReleaseGroupMatch as IMbReleaseGroupMatch,
+} from 'musicbrainz-api/lib/musicbrainz.types';
 
 export const transformArtistToApp = (
-  artistArray?: IArtistList,
-): Array<KeyedArtistListItem> => {
-  const artists: Array<KeyedArtistListItem> = (artistArray?.artists ?? []).map(
-    (artist: IArtistMatch) => {
+  artistArray?: IMbArtistList,
+): IArtistList => {
+  const artists: IArtistList = (artistArray?.artists ?? []).map(
+    (artist: IMbArtistMatch) => {
       const begin = artist['life-span']?.begin;
       const end = artist['life-span']?.end;
 
@@ -30,7 +38,21 @@ export const transformArtistToApp = (
   );
 
   // Filter the search results for ones that can be separated from each other (with active years and area)
-  return artists.filter((artist: KeyedArtistListItem) => {
+  return artists.filter((artist: IArtistListItem) => {
     return artist.areaActive !== null && artist.yearsActive.begin !== null;
   });
+};
+
+export const transformReleaseGroupsToApp = (
+  releasesArray?: IMbReleaseGroupList,
+): IAlbumList => {
+  return (releasesArray?.['release-groups'] ?? []).map(
+    (release: IMbReleaseGroupMatch): IAlbumListItem => {
+      return {
+        id: release.id,
+        name: release.title,
+        releaseDate: release['first-release-date'],
+      };
+    },
+  );
 };

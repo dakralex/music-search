@@ -1,33 +1,24 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {View} from 'react-native';
 import AppScreen from './AppScreen';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../AppStore';
+import {Divider} from '@rneui/themed';
 import {TabNavigationList} from '../navigation/TabNavigation';
-import SearchList from '../../components/organisms/SearchList';
+import WelcomeHeader from '../../components/templates/WelcomeHeader';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
-import ArtistSearchBar from '../../components/molecules/ArtistSearchBar';
+import RecentSearchList from '../../components/templates/RecentSearchList';
+import ArtistSearchLink from '../../components/templates/ArtistSearchLink';
 
 type HomeScreenProps = BottomTabNavigationProp<TabNavigationList, 'Home'>;
 
-const HomeScreen = ({navigation}: HomeScreenProps): JSX.Element => {
-  const recentSearchValues = useSelector(
-    (state: RootState) => state.search.recentSearchValues,
-  );
-
-  const [search, setSearch] = useState<string>('');
-
-  const submitSearch = () => {
-    navigation.navigate('Search', {initialSearchValue: search});
-  };
-
+const HomeScreen = ({}: HomeScreenProps): JSX.Element => {
   return (
     <AppScreen>
-      <ArtistSearchBar
-        searchValue={search}
-        setSearchValue={setSearch}
-        submitSearch={submitSearch}
-      />
-      <SearchList items={recentSearchValues} />
+      <View>
+        <WelcomeHeader />
+        <Divider style={{marginVertical: 16}} />
+        <ArtistSearchLink />
+        <RecentSearchList />
+      </View>
     </AppScreen>
   );
 };
