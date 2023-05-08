@@ -1,8 +1,7 @@
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {FlatList, TouchableOpacity} from 'react-native';
-import ArtistListItem, {IArtistListItem} from '../molecules/ArtistListItem';
-import {MainNavigationList} from '../../containers/navigation/MainNavigation';
+import {FlatList} from 'react-native';
+import {IArtistListItem} from '../molecules/ArtistListItem';
+import ArtistListItemLink from '../molecules/ArtistListItemLink';
 
 export type IArtistList = Array<IArtistListItem>;
 
@@ -11,19 +10,10 @@ type ArtistListProps = {
 };
 
 const ArtistList = ({artists}: ArtistListProps): JSX.Element => {
-  const navigation = useNavigation<MainNavigationList>();
-
   return (
     <FlatList
       data={artists}
-      renderItem={({item: artist}) => (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Details', {artist: artist});
-          }}>
-          <ArtistListItem artist={artist} />
-        </TouchableOpacity>
-      )}
+      renderItem={({item: artist}) => <ArtistListItemLink artist={artist} />}
       keyExtractor={item => item.id}
     />
   );

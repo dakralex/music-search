@@ -19,6 +19,7 @@ const AlbumList = ({albums, isLoading}: AlbumListProps) => {
       ListHeaderComponent={<Subtitle fontWeight="bold">Albums</Subtitle>}
       data={albums}
       renderItem={({item: album}) => <AlbumListItem album={album} />}
+      keyExtractor={item => item.id}
     />
   );
 };

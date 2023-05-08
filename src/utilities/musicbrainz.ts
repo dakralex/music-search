@@ -1,7 +1,6 @@
 import {IAlbumList} from '../components/organisms/AlbumList';
 import {IArtistList} from '../components/organisms/ArtistList';
 import {IAlbumListItem} from '../components/molecules/AlbumListItem';
-import {IArtistListItem} from '../components/molecules/ArtistListItem';
 import {
   IArtistList as IMbArtistList,
   IArtistMatch as IMbArtistMatch,
@@ -12,56 +11,68 @@ import {
 /**
  * Transforms response from MusicBrainz' Artist Search API to usable data.
  *
- * @param artistArray
+ * @param response
  */
 export const transformArtistSearchResults = (
-  artistArray?: IMbArtistList,
+  response?: IMbArtistList,
 ): IArtistList => {
-  const artists: IArtistList = (artistArray?.artists ?? []).map(
-    (artist: IMbArtistMatch) => {
-      const begin = artist['life-span']?.begin;
-      const end = artist['life-span']?.end;
+  const artistsArray = response?.artists ?? [];
 
-      const area = artist.area?.name ?? null;
-      const yearsActiveBegin = begin
-        ? new Date(begin).getUTCFullYear().toString(10)
-        : null;
-      const yearsActiveEnd = end
-        ? new Date(end).getUTCFullYear().toString(10)
-        : null;
-
-      return {
-        id: artist.id,
-        name: artist.name,
-        areaActive: area,
-        yearsActive: {
-          begin: yearsActiveBegin,
-          end: yearsActiveEnd,
-        },
-      };
-    },
+  // Exclude results that don't have any distinctive data (without area or founding date)
+  const filteredArtistsArray = artistsArray.filter(
+    artist => artist.area?.name != null || artist['life-span']?.begin != null,
   );
 
-  // Filter the search results for ones that can be separated from each other (with active years and area)
-  return artists.filter((artist: IArtistListItem) => {
-    return artist.areaActive !== null && artist.yearsActive.begin !== null;
+  // Map response to IArtistList
+  return filteredArtistsArray.map((artist: IMbArtistMatch) => {
+    const begin = artist['life-span']?.begin;
+    const end = artist['life-span']?.end;
+
+    const area = artist.area?.name ?? null;
+    const beginDate = begin
+      ? new Date(begin).getUTCFullYear().toString(10)
+      : null;
+    const endDate = end ? new Date(end).getUTCFullYear().toString(10) : null;
+
+    return {
+      id: artist.id,
+      name: artist.name,
+      area: area,
+      lifespan: {
+        begin: beginDate,
+        end: endDate,
+      },
+    };
   });
 };
 
 /**
  * Transforms response from MusicBrainz' Release Group API to usable data.
  *
- * @param releaseGroupsArray
+ * @param response
  */
 export const transformReleaseGroupsInfo = (
-  releaseGroupsArray?: IMbReleaseGroupList,
+  response?: IMbReleaseGroupList,
 ): IAlbumList => {
-  return (releaseGroupsArray?.['release-groups'] ?? []).map(
-    (release: IMbReleaseGroupMatch): IAlbumListItem => {
+  const releaseGroupsArray = response?.['release-groups'] ?? [];
+
+  // Exclude results that don't have any distinctive data (without release date)
+  const filteredReleaseGroupsArray = releaseGroupsArray.filter(
+    releaseGroup => releaseGroup?.['first-release-date'] != null,
+  );
+
+  // Map response values to IAlbumList
+  return filteredReleaseGroupsArray.map(
+    (releaseGroup: IMbReleaseGroupMatch): IAlbumListItem => {
+      const release = releaseGroup?.['first-release-date'];
+      const releaseDate = release
+        ? new Date(release).getUTCFullYear().toString(10)
+        : null;
+
       return {
-        id: release.id,
-        name: release.title,
-        releaseDate: release['first-release-date'],
+        id: releaseGroup.id,
+        name: releaseGroup.title,
+        release: releaseDate,
       };
     },
   );

@@ -8,12 +8,13 @@ import {useCoverArtUrl} from '../../hooks/useCoverArtUrl';
 export type IAlbumListItem = {
   id: string;
   name: string;
-  releaseDate: string;
+  release: string | null;
 };
 
 export type AlbumListItemProps = {
   album: IAlbumListItem;
 };
+
 const AlbumListItem = ({album}: AlbumListItemProps) => {
   const {coverUrl, isLoading} = useCoverArtUrl(album.id);
 
@@ -33,7 +34,7 @@ const AlbumListItem = ({album}: AlbumListItemProps) => {
       </View>
       <View style={styles.albumListItemInfoContainer}>
         <Subtitle>{album.name}</Subtitle>
-        {album.releaseDate ? <Paragraph>{album.releaseDate}</Paragraph> : null}
+        {album.release ? <Paragraph>{album.release}</Paragraph> : null}
       </View>
     </View>
   );

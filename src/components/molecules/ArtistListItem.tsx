@@ -14,8 +14,8 @@ import {
 export type IArtistListItem = {
   id: string;
   name: string;
-  areaActive: string | null;
-  yearsActive: {
+  area: string | null;
+  lifespan: {
     begin: string | null;
     end: string | null;
   };
@@ -32,7 +32,7 @@ const ArtistListItem = ({
   shouldBeFavorable = true,
   shouldBeNavigable = true,
 }: ArtistListItemProps): JSX.Element => {
-  const {id, name, areaActive, yearsActive} = artist;
+  const {id, name, area, lifespan} = artist;
 
   const dispatch = useDispatch();
   const isFavoriteArtist = useSelector(
@@ -47,10 +47,10 @@ const ArtistListItem = ({
       <View style={styles.artistListItemTextList}>
         <Subtitle>{name}</Subtitle>
         <Paragraph>
-          {yearsActive.begin !== null ? yearsActive.begin : ''}–
-          {yearsActive.end !== null ? yearsActive.end : ''}
+          {lifespan.begin !== null ? lifespan.begin : ''}–
+          {lifespan.end !== null ? lifespan.end : ''}
         </Paragraph>
-        {areaActive != null && <Paragraph>{areaActive}</Paragraph>}
+        {area != null && <Paragraph>{area}</Paragraph>}
       </View>
       {shouldBeFavorable && (
         <Button
