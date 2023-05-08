@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import {USER_AGENT} from '../AppConstants';
 
 export type IUseCoverArtUrl = string | null;
 
@@ -53,7 +54,7 @@ export const useCoverArtUrl = (mbid: string): UseCoverArtUrl => {
             headers: {
               Accept: 'application/json',
               Content: 'application/json',
-              'User-Agent': 'MusicSearch/v1.0 ( dakral@protonmail.com )',
+              'User-Agent': USER_AGENT,
             },
           },
         );

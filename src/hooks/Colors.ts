@@ -26,3 +26,7 @@ export const useForegroundColor = (): string => {
 export const useBackgroundColor = (): string => {
   return usePalette().background;
 };
+
+export const useGrayColor = (): string => {
+  return usePalette().gray;
+};

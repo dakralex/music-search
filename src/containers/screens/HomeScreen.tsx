@@ -8,6 +8,7 @@ import WelcomeHeader from '../../components/templates/WelcomeHeader';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import RecentSearchList from '../../components/templates/RecentSearchList';
 import ArtistSearchLink from '../../components/templates/ArtistSearchLink';
+import AppInformation from '../../components/atoms/AppInformation';
 
 type HomeScreenProps = BottomTabNavigationProp<TabNavigationList, 'Home'>;
 
@@ -19,6 +20,7 @@ const HomeScreen = ({}: HomeScreenProps): JSX.Element => {
         <Divider style={globalStyles.divider} />
         <ArtistSearchLink />
         <RecentSearchList />
+        <AppInformation />
       </View>
     </AppScreen>
   );

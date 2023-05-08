@@ -5,6 +5,7 @@ import {
   transformArtistSearchResults,
   transformReleaseGroupsInfo,
 } from '../../utilities/musicbrainz';
+import {USER_AGENT} from '../../AppConstants';
 
 export const musicbrainzApi = createApi({
   reducerPath: 'musicbrainz',
@@ -13,7 +14,7 @@ export const musicbrainzApi = createApi({
     headers: {
       Accept: 'application/json',
       Content: 'application/json',
-      'User-Agent': 'MusicSearch/v1.0 ( dakral@protonmail.com )',
+      'User-Agent': USER_AGENT,
     },
   }),
   endpoints: builder => ({

@@ -1,6 +1,6 @@
 {
   "name": "@dakralex/music-search",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "license": "MIT",
   "description": "An app that allows to find information about musicians and their discography.",
   "private": true,
