@@ -22,6 +22,7 @@ const MainNavigation = () => {
       screenOptions={{
         headerStyle: navigationStyles.headerContainer,
         headerTitleStyle: navigationStyles.headerText,
+        headerTintColor: navigationStyles.headerBackButton.color,
       }}>
       <Stack.Screen
         name="Root"

@@ -23,6 +23,7 @@ const TabNavigation = (): JSX.Element => {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         headerStyle: navigationStyles.headerContainer,
         headerTitleStyle: navigationStyles.headerText,
         tabBarStyle: navigationStyles.tabBarContainer,

@@ -11,7 +11,7 @@ export const getNavigationStyles = (colorTheme: Palette) =>
       fontSize: 24,
     },
     headerBackButton: {
-      color: colorTheme.primary,
+      color: colorTheme.foreground,
     },
     tabBarContainer: {
       backgroundColor: colorTheme.background,
